@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Quiz AI in Python{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Login</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Accedi al tuo account per continuare.</p>
+
+                <form method="POST" action="{{ url_for('auth.login') }}">
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Login *</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="login"
+                            name="login"
+                            placeholder="Il tuo nome utente"
+                            required
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password *</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password"
+                            placeholder="La tua password"
+                            required
+                        >
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Accedi</button>
+                    </div>
+                </form>
+
+                <hr>
+
+                <p class="text-center mb-0">
+                    Non hai un account?
+                    <a href="{{ url_for('auth.register') }}">Registrati qui</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

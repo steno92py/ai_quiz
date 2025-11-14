@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Registrazione - Quiz AI in Python{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Registrazione</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Crea un nuovo account per iniziare a giocare.</p>
+
+                <form method="POST" action="{{ url_for('auth.register') }}">
+                    <div class="mb-3">
+                        <label for="login" class="form-label">Login *</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="login"
+                            name="login"
+                            placeholder="Scegli un nome utente"
+                            required
+                            maxlength="80"
+                        >
+                        <small class="form-text text-muted">
+                            Il tuo login deve essere univoco.
+                        </small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nickname" class="form-label">Nickname *</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="nickname"
+                            name="nickname"
+                            placeholder="Nome da visualizzare nella classifica"
+                            required
+                            maxlength="80"
+                        >
+                        <small class="form-text text-muted">
+                            Il tuo nickname apparirà nella classifica e deve essere univoco.
+                        </small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password *</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password"
+                            placeholder="Inserisci una password sicura"
+                            required
+                            minlength="6"
+                        >
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password_confirm" class="form-label">Conferma Password *</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password_confirm"
+                            name="password_confirm"
+                            placeholder="Reinserisci la password"
+                            required
+                            minlength="6"
+                        >
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Registrati</button>
+                    </div>
+                </form>
+
+                <hr>
+
+                <p class="text-center mb-0">
+                    Hai già un account?
+                    <a href="{{ url_for('auth.login') }}">Effettua il login</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

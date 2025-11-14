@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block title %}Quiz - Quiz AI in Python{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <!-- Feedback Message -->
+        {% if feedback %}
+            <div class="alert {% if feedback == 'correct' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert" id="feedbackAlert">
+                <h5 class="alert-heading mb-1">
+                    {% if feedback == 'correct' %}
+                        Risposta Esatta!
+                    {% elif feedback == 'incorrect' %}
+                        Risposta Errata!
+                    {% else %}
+                        Errore
+                    {% endif %}
+                </h5>
+                {% if feedback == 'correct' %}
+                    <p class="mb-0">Hai guadagnato {{ points_earned }} punti.</p>
+                {% elif feedback == 'incorrect' %}
+                    <p class="mb-0">Ritenta con la prossima domanda!</p>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <!-- Lives Display -->
+        <div class="card mb-3 border-danger">
+            <div class="card-body text-center">
+                <h5 class="mb-2">Vite Rimanenti</h5>
+                <div class="lives-display">
+                    {% for i in range(3) %}
+                        {% if i < lives %}
+                            <span class="life-icon active">♥</span>
+                        {% else %}
+                            <span class="life-icon lost">♥</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">Punteggio Sessione</h4>
+            </div>
+            <div class="card-body text-center">
+                <h2 class="display-4" id="scoreDisplay">{{ score }} punti</h2>
+                <p class="text-muted">Attento! Se sbagli 3 volte è Game Over!</p>
+                {% if record_score > 0 %}
+                    <hr>
+                    <p class="mb-0"><small class="text-muted">Il tuo record: <strong>{{ record_score }} punti</strong></small></p>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if not question %}
+            <div class="alert alert-warning">
+                <h5>Nessuna domanda disponibile</h5>
+                <p>
+                    Al momento non ci sono domande nel database. Contatta l'amministratore
+                    per aggiungere nuove domande.
+                </p>
+            </div>
+        {% else %}
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Domanda</h5>
+                </div>
+                <div class="card-body">
+                    <p class="lead mb-4">{{ question.text }}</p>
+
+                    <form method="POST" action="{{ url_for('quiz.quiz') }}">
+                        <input type="hidden" name="question_id" value="{{ question.id }}">
+
+                        <div class="mb-3">
+                            <div class="form-check mb-2">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="answer"
+                                    id="option_a"
+                                    value="a"
+                                    required
+                                >
+                                <label class="form-check-label" for="option_a">
+                                    <strong>A)</strong> {{ question.option_a }}
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="answer"
+                                    id="option_b"
+                                    value="b"
+                                    required
+                                >
+                                <label class="form-check-label" for="option_b">
+                                    <strong>B)</strong> {{ question.option_b }}
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="answer"
+                                    id="option_c"
+                                    value="c"
+                                    required
+                                >
+                                <label class="form-check-label" for="option_c">
+                                    <strong>C)</strong> {{ question.option_c }}
+                                </label>
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="answer"
+                                    id="option_d"
+                                    value="d"
+                                    required
+                                >
+                                <label class="form-check-label" for="option_d">
+                                    <strong>D)</strong> {{ question.option_d }}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                Invia Risposta
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-muted">
+                    <small>
+                        Difficoltà:
+                        <span class="badge bg-secondary">{{ question.difficulty if question.difficulty else 'medium' }}</span>
+                    </small>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Make entire form-check area clickable
+    document.addEventListener('DOMContentLoaded', function() {
+        const formChecks = document.querySelectorAll('.form-check');
+        formChecks.forEach(function(formCheck) {
+            formCheck.addEventListener('click', function(e) {
+                // Only trigger if not already clicking on the input or label
+                if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) {
+                        radio.checked = true;
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+{% if feedback %}
+<script>
+    // Scroll to feedback alert on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        const feedbackAlert = document.getElementById('feedbackAlert');
+        if (feedbackAlert) {
+            feedbackAlert.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Add animation to score if correct
+            {% if feedback == 'correct' %}
+            const scoreDisplay = document.getElementById('scoreDisplay');
+            if (scoreDisplay) {
+                scoreDisplay.classList.add('score-updated');
+            }
+            {% endif %}
+        }
+    });
+</script>
+{% endif %}
+{% endblock %}

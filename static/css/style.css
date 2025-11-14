@@ -1,0 +1,264 @@
+/* Custom CSS for AI Quiz Site */
+
+:root {
+    --primary-color: #0d6efd;
+    --success-color: #198754;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #0dcaf0;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Navbar customization */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Card styling */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    border-radius: 10px 10px 0 0 !important;
+}
+
+/* Button enhancements */
+.btn {
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+/* Form styling */
+.form-control {
+    border-radius: 5px;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Radio buttons for quiz */
+.form-check {
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.form-check:hover {
+    background-color: #f8f9fa;
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.1);
+}
+
+.form-check-label {
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 0;
+    padding-left: 5px;
+    user-select: none;
+}
+
+.form-check-input {
+    cursor: pointer;
+    margin-top: 0.4em;
+}
+
+.form-check-input:checked ~ .form-check-label {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.form-check:has(.form-check-input:checked) {
+    background-color: rgba(13, 110, 253, 0.1);
+    border-color: var(--primary-color);
+    border-width: 2px;
+}
+
+/* Table styling */
+.table {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.table thead {
+    font-weight: 600;
+}
+
+/* Weather widget specific */
+.table-responsive {
+    border-radius: 8px;
+}
+
+/* Footer styling */
+footer {
+    margin-top: auto;
+}
+
+/* Toast notifications */
+.toast {
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: none;
+    min-width: 300px;
+    animation: slideInRight 0.3s ease-out;
+}
+
+.toast-header {
+    border-radius: 10px 10px 0 0;
+    border: none;
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Flash messages (legacy support) */
+.alert {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Badge styling */
+.badge {
+    padding: 0.4em 0.8em;
+    font-weight: 500;
+}
+
+/* Leaderboard medals */
+.table-primary {
+    background-color: rgba(13, 110, 253, 0.1) !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Animation for score */
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.display-4 {
+    animation: pulse 2s infinite;
+}
+
+/* Animation for score update */
+@keyframes scoreUpdate {
+    0% {
+        transform: scale(1);
+        color: inherit;
+    }
+    50% {
+        transform: scale(1.2);
+        color: #198754;
+    }
+    100% {
+        transform: scale(1);
+        color: inherit;
+    }
+}
+
+.score-updated {
+    animation: scoreUpdate 0.6s ease-out;
+}
+
+/* Feedback alert animation */
+.alert {
+    animation: slideInDown 0.4s ease-out;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Lives system styling */
+.lives-display {
+    font-size: 3rem;
+    letter-spacing: 10px;
+}
+
+.life-icon {
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.life-icon.active {
+    color: #dc3545;
+    filter: drop-shadow(0 2px 4px rgba(220, 53, 69, 0.3));
+}
+
+.life-icon.lost {
+    color: #6c757d;
+    opacity: 0.3;
+}
+
+/* Game Over styling */
+.stat-box {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    transition: transform 0.3s ease;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+}

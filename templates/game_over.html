@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Game Over - Quiz AI in Python{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <!-- Game Over Card -->
+        <div class="card border-danger mb-4">
+            <div class="card-header bg-danger text-white text-center">
+                <h2 class="mb-0">GAME OVER</h2>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <h4 class="text-danger mb-3">Hai esaurito le vite!</h4>
+                    <p class="lead">Peccato! Hai sbagliato 3 risposte.</p>
+                </div>
+
+                <!-- New Record Alert -->
+                {% if is_new_record and session_score > 0 %}
+                    <div class="alert alert-success mb-4">
+                        <h4 class="alert-heading">NUOVO RECORD PERSONALE!</h4>
+                        <p class="mb-0">Hai battuto il tuo record precedente!</p>
+                    </div>
+                {% endif %}
+
+                <!-- Session Stats -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <div class="stat-box">
+                            <h5 class="text-muted">Punti questa sessione</h5>
+                            <h2 class="text-success">{{ session_score }}</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="stat-box">
+                            <h5 class="text-muted">Il Tuo Record</h5>
+                            <h2 class="text-primary">{{ score }} punti</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leaderboard Position -->
+                <div class="alert alert-info">
+                    <h4 class="alert-heading">La Tua Posizione in Classifica</h4>
+                    <hr>
+                    <p class="mb-0">
+                        Sei al <strong class="fs-3">{{ rank }}° posto</strong> su {{ total_users }} giocatori
+                    </p>
+                    {% if rank == 1 %}
+                        <p class="mt-2 mb-0"><strong>Complimenti! Sei in testa alla classifica!</strong></p>
+                    {% elif rank <= 3 %}
+                        <p class="mt-2 mb-0"><strong>Ottimo! Sei sul podio!</strong></p>
+                    {% elif rank <= 10 %}
+                        <p class="mt-2 mb-0">Sei nella top 10!</p>
+                    {% endif %}
+                </div>
+
+                <!-- Actions -->
+                <div class="d-grid gap-3 mt-4">
+                    <form method="POST" action="{{ url_for('quiz.quiz') }}">
+                        <input type="hidden" name="action" value="restart">
+                        <button type="submit" class="btn btn-success btn-lg w-100">
+                            Gioca Ancora
+                        </button>
+                    </form>
+
+                    <a href="{{ url_for('main.leaderboard') }}" class="btn btn-primary btn-lg">
+                        Vedi Classifica Completa
+                    </a>
+
+                    <a href="{{ url_for('main.home') }}" class="btn btn-outline-secondary">
+                        Torna alla Home
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Encouragement Message -->
+        <div class="card">
+            <div class="card-body text-center">
+                <p class="mb-0 text-muted">
+                    <strong>Suggerimento:</strong> Studia gli argomenti di AI e Machine Learning per migliorare il tuo punteggio!
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .stat-box {
+        padding: 20px;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+    }
+
+    .stat-box h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: 0;
+    }
+</style>
+{% endblock %}
